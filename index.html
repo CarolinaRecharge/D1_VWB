@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D1 Training — Daily Workout</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Supabase JS v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="display-page">
+
+  <!-- Day selector pills -->
+  <nav class="day-nav" id="dayNav">
+    <span class="day-nav-label">Day</span>
+    <button class="day-pill" data-day="Monday">Mon</button>
+    <button class="day-pill" data-day="Tuesday">Tue</button>
+    <button class="day-pill" data-day="Wednesday">Wed</button>
+    <button class="day-pill" data-day="Thursday">Thu</button>
+    <button class="day-pill" data-day="Friday">Fri</button>
+    <button class="day-pill" data-day="Saturday">Sat</button>
+  </nav>
+
+  <!-- 2×2 workout board -->
+  <div class="board" id="board">
+    <div class="quadrant" id="track-Adult">
+      <div class="track-header">Adult</div>
+      <div class="track-content" id="content-Adult"></div>
+    </div>
+    <div class="quadrant" id="track-Devo">
+      <div class="track-header">Devo</div>
+      <div class="track-content" id="content-Devo"></div>
+    </div>
+    <div class="quadrant" id="track-Rookie">
+      <div class="track-header">Rookie</div>
+      <div class="track-content" id="content-Rookie"></div>
+    </div>
+    <div class="quadrant" id="track-Prep">
+      <div class="track-header">Prep</div>
+      <div class="track-content" id="content-Prep"></div>
+    </div>
+  </div>
+
+  <script src="supabase.js"></script>
+  <script src="display.js"></script>
+</body>
+</html>
