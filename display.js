@@ -55,6 +55,47 @@
     return line;
   }
 
+  // ── Font fitting ──────────────────────────────────────────────────────────────
+  // Binary-searches for the largest integer px font-size where all content fits
+  // inside the quadrant — both vertically (scrollHeight) and horizontally
+  // (no exercise row overflows its container width, since they are nowrap).
+
+  function fitTrackContent(trackName) {
+    const content = document.getElementById('content-' + trackName);
+    if (!content) return;
+
+    const availH = content.clientHeight;
+    const availW = content.clientWidth;
+    if (!availH || !availW) return;
+
+    // Reset before measuring so we don't compound previous adjustments
+    content.style.fontSize = '';
+
+    let lo = 9, hi = 58, best = lo;
+
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1;
+      content.style.fontSize = mid + 'px';
+
+      const overflowsH = content.scrollHeight > availH;
+      const overflowsW = Array.from(content.querySelectorAll('.exercise-row'))
+        .some(r => r.scrollWidth > r.clientWidth);
+
+      if (!overflowsH && !overflowsW) {
+        best = mid;
+        lo = mid + 1;
+      } else {
+        hi = mid - 1;
+      }
+    }
+
+    content.style.fontSize = best + 'px';
+  }
+
+  function fitAllTracks() {
+    TRACKS.forEach(t => fitTrackContent(t));
+  }
+
   function renderTrack(trackName, rows) {
     const el = document.getElementById('content-' + trackName);
     if (!el) return;
@@ -133,11 +174,13 @@
       return;
     }
 
-    // Render each track
+    // Render each track, then fit font sizes once layout is stable
     TRACKS.forEach(track => {
       const trackRows = data.filter(r => r.track === track);
       renderTrack(track, trackRows);
     });
+
+    requestAnimationFrame(fitAllTracks);
   }
 
   // ── Day pill UI ───────────────────────────────────────────────────────────────
@@ -181,6 +224,18 @@
     setInterval(() => {
       loadWorkout(currentDay, currentWeekStart);
     }, REFRESH_INTERVAL_MS);
+
+    // Re-fit on window resize (debounced)
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(fitAllTracks, 150);
+    });
+
+    // Re-fit after web fonts finish loading (Caveat affects line metrics)
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(fitAllTracks);
+    }
   }
 
   document.addEventListener('DOMContentLoaded', init);

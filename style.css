@@ -133,7 +133,7 @@ body.display-page {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: clamp(2px, 0.35vw, 6px);
+  gap: 0.22em; /* scales with JS-controlled font size */
 }
 
 /* ---- Section Block (P / S / C&C) ---- */
@@ -147,19 +147,19 @@ body.display-page {
   display: inline-block;
   font-family: 'Oswald', sans-serif;
   font-weight: 700;
-  font-size: clamp(0.6rem, 0.9vw, 1rem);
+  font-size: 0.62em; /* relative to JS-set track-content font-size */
   color: var(--section-label);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   line-height: 1.2;
-  margin-bottom: 1px;
+  margin-bottom: 0;
   opacity: 0.9;
 }
 
 /* ---- Exercise Row ---- */
 .exercise-row {
   font-family: 'Caveat', cursive;
-  font-size: clamp(0.9rem, 1.35vw, 1.55rem);
+  font-size: 1em; /* inherits JS-set track-content font-size */
   font-weight: 600;
   color: var(--text);
   white-space: nowrap;
@@ -172,7 +172,7 @@ body.display-page {
 /* ---- Motivational text row (exercise_label === '') ---- */
 .motivational-row {
   font-family: 'Caveat', cursive;
-  font-size: clamp(0.8rem, 1.1vw, 1.25rem);
+  font-size: 0.85em; /* relative to JS-set track-content font-size */
   font-style: italic;
   color: var(--section-label);
   text-align: center;
